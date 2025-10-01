@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>shivam ki website </title>
     <style>
         * {
@@ -17,7 +16,8 @@
             font-variation-settings:
                 "wdth" 100;
         }
-        body{
+
+        body {
             overflow-x: hidden;
             margin: 0;
             padding: 0;
@@ -25,51 +25,54 @@
             display: flex;
             flex-direction: column;
         }
-        main{
+
+        main {
             display: flex;
             justify-content: center;
             flex: 1;
             padding: 15px 0;
         }
-        main  section{
+
+        main section {
             border: 1px solid black;
             height: auto;
-            min-height: 70vh; 
+            min-height: 70vh;
             width: 90%;
-            max-width: 1200px; 
+            max-width: 1200px;
             margin: auto;
             overflow-y: auto;
             overflow-x: hidden;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
 
         .filebox {
             position: relative;
             border: 1px solid black;
-            width: calc(100% - 48px); 
+            width: calc(100% - 48px);
             margin: 14px auto;
             padding: 10px;
             display: flex;
             align-items: center;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
 
         .title {
             display: flex;
             justify-content: center;
             font-size: 36px;
-            text-align: center; 
-            padding: 0 10px; 
+            text-align: center;
+            padding: 0 10px;
         }
 
-        .details{
-            margin-left:30px;
-            flex: 1; 
-            min-width: 0; 
+        .details {
+            margin-left: 30px;
+            flex: 1;
+            min-width: 0;
         }
-        .msg{
+
+        .msg {
             background-color: rgb(75, 75, 75);
-            width: 100%; 
+            width: 100%;
             margin: auto;
             height: 10dvh;
             color: white;
@@ -78,29 +81,33 @@
             justify-content: center;
             align-items: center;
         }
-        .details h4{
+
+        .details h4 {
             margin: 0;
             padding: 0;
             font-size: 24px;
             word-break: break-word;
         }
-        .details h5{
+
+        .details h5 {
             color: gray;
             font-size: 11px;
             margin: 0;
             padding: 0;
         }
-        .filebox button{
-            position: static; 
-            margin-left: auto; 
+
+        .filebox button {
+            position: static;
+            margin-left: auto;
             margin-right: 15px;
             padding: 7px;
             background-color: blue;
             border: none;
             border-radius: 10px;
-            white-space: nowrap; 
+            white-space: nowrap;
         }
-        .btn a{
+
+        .btn a {
             color: white;
             text-decoration: none;
             font-weight: 500;
@@ -147,6 +154,15 @@
             font-size: 20px;
         }
 
+        .filebox i {
+            font-size: 2rem;
+            color: black;
+            background: black;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
         .creator-info {
             text-align: left;
         }
@@ -172,25 +188,27 @@
             color: #ccc;
         }
 
+
+
         @media (max-width: 768px) {
             .title {
-                font-size: 28px; 
+                font-size: 28px;
             }
-            
+
             .filebox {
                 flex-wrap: wrap;
                 justify-content: center;
                 text-align: center;
             }
-            
+
             .details {
                 margin-left: 0;
                 margin-top: 10px;
-                width: 100%; 
+                width: 100%;
             }
-            
+
             .filebox button {
-                margin: 10px auto 0; 
+                margin: 10px auto 0;
             }
         }
 
@@ -198,30 +216,30 @@
             .footer-content {
                 flex-direction: column;
             }
-            
+
             .creator {
                 width: 100%;
                 max-width: 300px;
             }
-            
+
             .title {
-                font-size: 24px; 
+                font-size: 24px;
             }
-            
+
             .details h4 {
                 font-size: 20px;
             }
         }
-        
-        @media (max-width: 480px){
-            .filebox{
+
+        @media (max-width: 480px) {
+            .filebox {
                 width: calc(100% - 28px);
                 margin: 10px auto;
             }
-            
+
             .filebox button {
                 padding: 10px 15px;
-                margin: 15px auto 0; 
+                margin: 15px auto 0;
             }
         }
     </style>
@@ -229,7 +247,7 @@
 
 <body>
     <main>
-        
+
         <section>
             <div>
                 <div class="title">
@@ -262,11 +280,11 @@
                         <h4>ENGLISH ASSIGNMENT-I</h4>
                         <h5>Format- ZIP | Size - 20 MB</h5>
                     </span>
-                    <button class="btn"><a href="ENGLISH ASSIGNMENT.zip">Download</a></button>
+                    <button class="btn"><a href="EVS unit-II.docx">Download</a></button>
                 </div>
             </div>
 
-             <div>
+            <div>
                 <div class="filebox">
                     <img src="cloud-computing.png" alt="logo" width="50">
                     <span class="details">
@@ -289,6 +307,17 @@
                 </div>
             </div>
 
+            <div id="car">
+                <div class="filebox">
+                    <i class="fas fa-computer"></i>
+                    <span class="details">
+                        <h4>Computer architecture Unit-I</h4>
+                        <h5>Fomrat:- WebPage</h5>
+                    </span>
+                    <button class="btn" id="carbtn" style="color: white; font-weight: 600;">Go To Page</button>
+                </div>
+            </div>
+
         </section>
     </main>
 
@@ -296,7 +325,7 @@
         <div class="collaboration-text">
             Made by Sami in collaboration with Shivam Chaudhary
         </div>
-        
+
         <div class="footer-content">
             <div class="creator">
                 <div class="creator-img"><img src="8518627.jpg" alt="" width="50" style="border-radius: 50%;"></div>
@@ -307,20 +336,52 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="creator">
                 <div class="creator-img"><img src="hero2.jpg" alt="hero2" width="50" style="border-radius: 50%;"></div>
                 <div class="creator-info">
                     <div class="creator-name">Shivam Chaudhary</div>
                     <div class="creator-link">
-                        <a href="https://www.instagram.com/x_shivvam__choudhary?igsh=eGIwZ21kdWt2NDU0" target="_blank">📸 Instagram</a>
+                        <a href="https://www.instagram.com/x_shivvam__choudhary?igsh=eGIwZ21kdWt2NDU0"
+                            target="_blank">📸 Instagram</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div><h5 style="color: #ccc; font-weight: 400; font-style: italic;">more material coming soon</h5></div>
+        <div>
+            <h5 style="color: #ccc; font-weight: 400; font-style: italic;">more material coming soon</h5>
+        </div>
     </footer>
-
+    <script>
+        let warned = false;
+        btn = document.getElementById('carbtn')
+        btn.addEventListener('click', () => {
+            if (!warned) {
+                let mainbox = document.getElementById('car')
+                let warnbox = document.createElement('div');
+                let warning = document.createElement('h3');
+                warning.innerText = '!! von neuman diagram is important please find it on google !!';
+                warnbtn = document.createElement('button');
+                warnbox.style.textAlign = 'center'
+                warnbtn.innerText = 'Go To Page';
+                warnbtn.style.padding = '4px 6px';
+                warnbtn.style.margin = '4px 6px';
+                warnbtn.style.fontSize = '16px';
+                warnbtn.style.borderRadius = '5px';
+                warnbtn.style.border = 'none';
+                warnbtn.style.backgroundColor = 'blue'
+                warnbtn.style.color = 'white';
+                warnbox.appendChild(warning);
+                warnbox.appendChild(warnbtn)
+                mainbox.appendChild(warnbox)
+                warned = true
+                warnbtn.addEventListener('click', () => {
+                    window.location.href = "car1.html";
+                })
+            }
+        })
+    </script>
 </body>
+
 </html>
 
