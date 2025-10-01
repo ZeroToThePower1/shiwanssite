@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Principles & Computer Architecture Notes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .download-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+        }
+        
+        .sidebar li {
+            margin-bottom: 0.7rem;
+        }
+        
+        .sidebar a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 0.3rem 0;
+        }
+        
+        .sidebar a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .main-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 20px;
+        }
+        
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.8rem 0;
+        }
+        
+        .highlight {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .law-table {
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .law-table td {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+        }
+        
+        .law-table td:first-child {
+            font-weight: bold;
+            background-color: #f5f5f5;
+            width: 30%;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .caption {
+            font-style: italic;
+            margin-top: 0.5rem;
+            color: #666;
+        }
+        
+        .example-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #4dabf7;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: #1971c2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .practice-box {
+            background-color: #fff3bf;
+            border-left: 4px solid #fcc419;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .practice-title {
+            font-weight: bold;
+            color: #e67700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .solution {
+            background-color: #ebfbee;
+            border-left: 4px solid #51cf66;
+            padding: 1rem;
+            margin-top: 0.8rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            display: none;
+        }
+        
+        .toggle-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .nav-container {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Digital Principles & Computer Architecture</h1>
+        <p class="subtitle">Comprehensive Notes with Examples, Practice Questions, and Diagrams</p>
+    </header>
+    
+    <div class="controls">
+        <div class="nav-container">
+            <button class="nav-btn" onclick="scrollToSection('digital-signals')">Digital Signals</button>
+            <button class="nav-btn" onclick="scrollToSection('digital-logic')">Digital Logic</button>
+            <button class="nav-btn" onclick="scrollToSection('boolean-algebra')">Boolean Algebra</button>
+            <button class="nav-btn" onclick="scrollToSection('karnaugh-maps')">Karnaugh Maps</button>
+            <button class="nav-btn" onclick="scrollToSection('number-systems')">Number Systems</button>
+            <button class="nav-btn" onclick="scrollToSection('binary-codes')">Binary Codes</button>
+            <button class="nav-btn" onclick="scrollToSection('computer-architecture')">Computer Architecture</button>
+        </div>
+        <button class="download-btn" onclick="generatePDF()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+            Download as PDF
+        </button>
+    </div>
+    
+    <div class="content">
+        <aside class="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#digital-signals">Digital Signals</a></li>
+                <li><a href="#digital-logic">Digital Logic</a></li>
+                <li><a href="#boolean-algebra">Boolean Algebra</a></li>
+                <li><a href="#karnaugh-maps">Karnaugh Maps</a></li>
+                <li><a href="#number-systems">Number Systems</a></li>
+                <li><a href="#binary-codes">Binary Codes</a></li>
+                <li><a href="#computer-architecture">Computer Architecture</a></li>
+            </ul>
+        </aside>
+        
+        <main class="main-content" id="content-to-print">
+            <!-- Digital Signals Section -->
+            <section id="digital-signals" class="section">
+                <h2>Digital Signals</h2>
+                
+                <h3>What is a Digital Signal?</h3>
+                <p>A digital signal is a signal that represents data as a sequence of discrete values. At any given time, it can only take one of a finite number of values.</p>
+                
+                <div class="highlight">
+                    <p><strong>Key Characteristics:</strong></p>
+                    <ul>
+                        <li><strong>Discrete in Value (Amplitude):</strong> Unlike a smooth, continuous analog signal, a digital signal "jumps" between specific levels.</li>
+                        <li><strong>Discrete in Time:</strong> The signal's value is only defined at specific points in time.</li>
+                        <li><strong>Binary Form:</strong> The simplest form is binary, where the signal can only be one of two values: 0 or 1.</li>
+                    </ul>
+                </div>
+                
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>Digital vs Analog Signal Comparison</p>
+                        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                            <div style="margin: 10px;">
+                                <p style="font-size: 0.9rem; color: #666;">Analog Signal</p>
+                                <div style="width: 200px; height: 100px; background: linear-gradient(to right, #f0f0f0, #e0e0e0); position: relative;">
+                                    <div style="position: absolute; bottom: 0; width: 100%; height: 80%; background: repeating-linear-gradient(45deg, transparent, transparent 5px, #ccc 5px, #ccc 10px);"></div>
+                                    <div style="position: absolute; bottom: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 100\"><path d=\"M0,50 Q25,20 50,50 T100,50 T150,50 T200,50\" stroke=\"%233498db\" stroke-width=\"2\" fill=\"none\"/></svg>') no-repeat;"></div>
+                                </div>
+                            </div>
+                            <div style="margin: 10px;">
+                                <p style="font-size: 0.9rem; color: #666;">Digital Signal</p>
+                                <div style="width: 200px; height: 100px; background: linear-gradient(to right, #f0f0f0, #e0e0e0); position: relative;">
+                                    <div style="position: absolute; bottom: 0; width: 100%; height: 80%; background: repeating-linear-gradient(45deg, transparent, transparent 5px, #ccc 5px, #ccc 10px);"></div>
+                                    <div style="position: absolute; bottom: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 100\"><path d=\"M0,80 L40,80 L40,20 L80,20 L80,80 L120,80 L120,20 L160,20 L160,80 L200,80\" stroke=\"%23e74c3c\" stroke-width=\"2\" fill=\"none\"/></svg>') no-repeat;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="caption">Comparison of analog (continuous) and digital (discrete) signals</p>
+                </div>
+                
+                <h3>From Analog to Digital: The DSP Chain</h3>
+                <p>Digital signals are created from analog signals through Digital Signal Processing (DSP):</p>
+                
+                <h4>1. Sampling</h4>
+                <p>Measuring the amplitude of a continuous analog signal at regular time intervals.</p>
+                <p><strong>Nyquist-Shannon Sampling Theorem:</strong> To accurately reconstruct the original analog signal, you must sample at a rate at least twice the highest frequency component.</p>
+                
+                <h4>2. Quantization</h4>
+                <p>Assigning each sample to the nearest value from a finite set of allowed levels.</p>
+                <p><strong>Bit Depth:</strong> Determines the number of possible quantization levels (e.g., 8-bit = 256 levels, 16-bit = 65,536 levels).</p>
+                
+                <h4>3. Encoding</h4>
+                <p>Converting quantized values into binary code (a series of 0s and 1s).</p>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Analog to Digital Conversion</div>
+                    <p>Consider an analog signal with a maximum frequency of 4 kHz. According to the Nyquist theorem, what should be the minimum sampling rate?</p>
+                    <p><strong>Solution:</strong> Minimum sampling rate = 2 × 4 kHz = 8 kHz (8000 samples per second)</p>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>An audio signal has frequency components up to 20 kHz. What is the minimum sampling rate required to accurately digitize this signal?</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution1')">Show Solution</button>
+                    <div id="solution1" class="solution">
+                        <p>According to the Nyquist-Shannon Sampling Theorem, the sampling rate must be at least twice the highest frequency component.</p>
+                        <p>Minimum sampling rate = 2 × 20 kHz = 40 kHz</p>
+                    </div>
+                </div>
+                
+                <h3>Advantages of Digital Signals</h3>
+                <ul>
+                    <li><strong>Noise Immunity:</strong> Highly resistant to noise and distortion</li>
+                    <li><strong>Error Detection & Correction:</strong> Can detect and correct transmission errors</li>
+                    <li><strong>Efficient Data Storage:</strong> Can be compressed using algorithms</li>
+                    <li><strong>Ease of Processing:</strong> Can be processed by computers and DSP chips</li>
+                    <li><strong>Secure Transmission:</strong> Can be easily encrypted</li>
+                </ul>
+                
+                <h3>Disadvantages of Digital Signals</h3>
+                <ul>
+                    <li>Sampling and quantization errors</li>
+                    <li>Aliasing if sampling rate is too low</li>
+                    <li>Higher bandwidth requirements</li>
+                    <li>System complexity (ADC/DAC circuitry)</li>
+                    <li>Latency in real-time systems</li>
+                </ul>
+            </section>
+            
+            <!-- Digital Logic Section -->
+            <section id="digital-logic" class="section">
+                <h2>Digital Logic</h2>
+                
+                <p>Digital logic is the foundation of all modern electronic devices, especially computers. It uses two distinct voltage levels to represent information: True/False, On/Off, 1/0, or High/Low.</p>
+                
+                <h3>The Core Concept: Binary</h3>
+                <p>Everything in digital logic boils down to manipulating binary digits (bits):</p>
+                <ul>
+                    <li><strong>0:</strong> Represents a low voltage (e.g., 0V or ground)</li>
+                    <li><strong>1:</strong> Represents a high voltage (e.g., 3.3V, 5V)</li>
+                </ul>
+                
+                <h3>Logic Gates</h3>
+                <p>Logic gates are electronic circuits that take binary inputs and produce a single binary output according to specific logical rules.</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Gate Name</th>
+                            <th>Boolean Expression</th>
+                            <th>Description</th>
+                            <th>Truth Table</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NOT</td>
+                            <td>X = A'</td>
+                            <td>Output is the opposite of the input</td>
+                            <td>A=0 → X=1, A=1 → X=0</td>
+                        </tr>
+                        <tr>
+                            <td>AND</td>
+                            <td>X = A · B</td>
+                            <td>Output is 1 only if all inputs are 1</td>
+                            <td>A,B=0,0 → X=0; 0,1→0; 1,0→0; 1,1→1</td>
+                        </tr>
+                        <tr>
+                            <td>OR</td>
+                            <td>X = A + B</td>
+                            <td>Output is 1 if at least one input is 1</td>
+                            <td>A,B=0,0 → X=0; 0,1→1; 1,0→1; 1,1→1</td>
+                        </tr>
+                        <tr>
+                            <td>NAND</td>
+                            <td>X = (A · B)'</td>
+                            <td>Output is opposite of AND gate (universal gate)</td>
+                            <td>A,B=0,0 → X=1; 0,1→1; 1,0→1; 1,1→0</td>
+                        </tr>
+                        <tr>
+                            <td>NOR</td>
+                            <td>X = (A + B)'</td>
+                            <td>Output is opposite of OR gate (universal gate)</td>
+                            <td>A,B=0,0 → X=1; 0,1→0; 1,0→0; 1,1→0</td>
+                        </tr>
+                        <tr>
+                            <td>XOR</td>
+                            <td>X = A ⊕ B</td>
+                            <td>Output is 1 if inputs are different</td>
+                            <td>A,B=0,0 → X=0; 0,1→1; 1,0→1; 1,1→0</td>
+                        </tr>
+                        <tr>
+                            <td>XNOR</td>
+                            <td>X = A ⊙ B</td>
+                            <td>Output is 1 if inputs are the same</td>
+                            <td>A,B=0,0 → X=1; 0,1→0; 1,0→0; 1,1→1</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>Logic Gate Symbols</p>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+                            <div>
+                                <p style="font-size: 0.9rem; margin-bottom: 5px;">AND Gate</p>
+                                <div style="width: 80px; height: 60px; background-color: white; border: 1px solid #333; position: relative;">
+                                    <div style="position: absolute; left: 0; top: 15px; width: 20px; height: 30px; border-right: 1px solid #333;"></div>
+                                    <div style="position: absolute; right: 0; top: 25px; width: 20px; height: 10px; border-left: 1px solid #333;"></div>
+                                    <div style="position: absolute; left: 20px; top: 0; width: 40px; height: 60px; border-right: 1px solid #333; border-left: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold;">&</div>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.9rem; margin-bottom: 5px;">OR Gate</p>
+                                <div style="width: 80px; height: 60px; background-color: white; border: 1px solid #333; position: relative;">
+                                    <div style="position: absolute; left: 0; top: 15px; width: 20px; height: 30px; border-right: 1px solid #333;"></div>
+                                    <div style="position: absolute; right: 0; top: 25px; width: 20px; height: 10px; border-left: 1px solid #333;"></div>
+                                    <div style="position: absolute; left: 20px; top: 0; width: 40px; height: 60px; border-right: 1px solid #333; border-left: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold;">≥1</div>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.9rem; margin-bottom: 5px;">NOT Gate</p>
+                                <div style="width: 60px; height: 40px; background-color: white; border: 1px solid #333; position: relative;">
+                                    <div style="position: absolute; left: 0; top: 15px; width: 20px; height: 10px; border-right: 1px solid #333;"></div>
+                                    <div style="position: absolute; right: 0; top: 15px; width: 20px; height: 10px; border-left: 1px solid #333;"></div>
+                                    <div style="position: absolute; left: 20px; top: 0; width: 20px; height: 40px; border-right: 1px solid #333; border-left: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                                    <div style="position: absolute; right: 15px; top: 15px; width: 5px; height: 10px; background-color: white; border-radius: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="caption">Common logic gate symbols used in circuit diagrams</p>
+                </div>
+                
+                <div class="highlight">
+                    <p><strong>Universal Property:</strong> Any logic gate can be created using only NAND gates or only NOR gates.</p>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Creating AND Gate from NAND Gates</div>
+                    <p>Show how to create an AND gate using only NAND gates.</p>
+                    <p><strong>Solution:</strong> An AND gate can be created by connecting a NAND gate to a NOT gate. Since a NOT gate can be created from a NAND gate (by connecting both inputs together), we can create an AND gate using two NAND gates:</p>
+                    <p>First NAND gate: Inputs A and B, Output = (A·B)'</p>
+                    <p>Second NAND gate: Both inputs connected to (A·B)', Output = ((A·B)'·(A·B)')' = A·B</p>
+                </div>
+                
+                <h3>Combinational Logic</h3>
+                <p>Circuits where output depends only on the current combination of inputs (no memory):</p>
+                <ul>
+                    <li><strong>Adders:</strong> Perform binary addition (Half-Adders, Full-Adders)</li>
+                    <li><strong>Multiplexers (MUX):</strong> Digital switch that selects one of many inputs</li>
+                    <li><strong>Demultiplexers (DEMUX):</strong> Opposite of MUX; routes single input to one of many outputs</li>
+                    <li><strong>Encoders:</strong> Convert multiple inputs into coded output</li>
+                    <li><strong>Decoders:</strong> Convert coded inputs into multiple outputs</li>
+                </ul>
+                
+                <h3>Sequential Logic</h3>
+                <p>Circuits where output depends on current inputs and past sequence of inputs (has memory):</p>
+                <ul>
+                    <li><strong>Flip-Flops:</strong> Basic memory elements (D Flip-Flop is most common)</li>
+                    <li><strong>Registers:</strong> Groups of flip-flops that store multi-bit binary numbers</li>
+                    <li><strong>Counters:</strong> Circuits that cycle through predefined sequences</li>
+                    <li><strong>Memory (RAM):</strong> Arrays of memory cells</li>
+                    <li><strong>Finite State Machines (FSMs):</strong> Model for designing sequential logic</li>
+                </ul>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Design a circuit using basic logic gates that implements the function: F = A·B + A'·C</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution2')">Show Solution</button>
+                    <div id="solution2" class="solution">
+                        <p>This function can be implemented using AND, OR, and NOT gates:</p>
+                        <p>1. Create A' using a NOT gate with input A</p>
+                        <p>2. Create A·B using an AND gate with inputs A and B</p>
+                        <p>3. Create A'·C using an AND gate with inputs A' and C</p>
+                        <p>4. Combine the outputs using an OR gate</p>
+                        <p>The circuit would have: 1 NOT gate, 2 AND gates, and 1 OR gate</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Boolean Algebra Section -->
+            <section id="boolean-algebra" class="section">
+                <h2>Boolean Algebra</h2>
+                
+                <p>Boolean algebra is the mathematical framework behind digital logic, dealing with variables that can only have two values (True/False, 1/0).</p>
+                
+                <h3>Boolean Laws and Theorems</h3>
+                
+                <table class="law-table">
+                    <tr>
+                        <td>Identity Law</td>
+                        <td>A + 0 = A<br>A · 1 = A</td>
+                    </tr>
+                    <tr>
+                        <td>Null Law</td>
+                        <td>A + 1 = 1<br>A · 0 = 0</td>
+                    </tr>
+                    <tr>
+                        <td>Idempotent Law</td>
+                        <td>A + A = A<br>A · A = A</td>
+                    </tr>
+                    <tr>
+                        <td>Inverse Law</td>
+                        <td>A + A' = 1<br>A · A' = 0</td>
+                    </tr>
+                    <tr>
+                        <td>Commutative Law</td>
+                        <td>A + B = B + A<br>A · B = B · A</td>
+                    </tr>
+                    <tr>
+                        <td>Associative Law</td>
+                        <td>(A + B) + C = A + (B + C)<br>(A · B) · C = A · (B · C)</td>
+                    </tr>
+                    <tr>
+                        <td>Distributive Law</td>
+                        <td>A · (B + C) = A·B + A·C<br>A + (B · C) = (A + B) · (A + C)</td>
+                    </tr>
+                    <tr>
+                        <td>Absorption Law</td>
+                        <td>A + A·B = A<br>A · (A + B) = A</td>
+                    </tr>
+                    <tr>
+                        <td>Redundancy Law</td>
+                        <td>A + A'·B = A + B<br>A' + A·B = A' + B</td>
+                    </tr>
+                </table>
+                
+                <h3>De Morgan's Theorem</h3>
+                <p><strong>Extremely Important:</strong></p>
+                <ul>
+                    <li>(A + B)' = A' · B'</li>
+                    <li>(A · B)' = A' + B'</li>
+                </ul>
+                <p>In words: The complement of a sum is the product of the complements, and vice versa.</p>
+                
+                <h3>Consensus Theorem</h3>
+                <ul>
+                    <li>AB + A'C + BC = AB + A'C</li>
+                    <li>(A + B)(A' + C)(B + C) = (A + B)(A' + C)</li>
+                </ul>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Boolean Simplification</div>
+                    <p>Simplify the Boolean expression: F = A·B·C + A·B·C' + A·B'·C + A'·B·C</p>
+                    <p><strong>Solution:</strong></p>
+                    <p>F = A·B·C + A·B·C' + A·B'·C + A'·B·C</p>
+                    <p>Group terms: = A·B·(C + C') + A·B'·C + A'·B·C</p>
+                    <p>Since C + C' = 1: = A·B + A·B'·C + A'·B·C</p>
+                    <p>Factor C from last two terms: = A·B + C·(A·B' + A'·B)</p>
+                    <p>Note that A·B' + A'·B = A ⊕ B (XOR): = A·B + C·(A ⊕ B)</p>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Using Boolean algebra, prove that: (A + B)(A + C) = A + BC</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution3')">Show Solution</button>
+                    <div id="solution3" class="solution">
+                        <p>Proof:</p>
+                        <p>(A + B)(A + C) = A·A + A·C + B·A + B·C  (Distributive Law)</p>
+                        <p>= A + A·C + A·B + B·C  (Idempotent Law: A·A = A)</p>
+                        <p>= A·(1 + C + B) + B·C  (Factor A)</p>
+                        <p>= A·1 + B·C  (Null Law: 1 + C + B = 1)</p>
+                        <p>= A + B·C  (Identity Law)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Karnaugh Maps Section -->
+            <section id="karnaugh-maps" class="section">
+                <h2>Karnaugh Maps (K-Maps)</h2>
+                
+                <p>Karnaugh Maps are a graphical method used to simplify Boolean algebra expressions, making it easier to minimize the number of logic gates needed.</p>
+                
+                <h3>2-Variable K-Map</h3>
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>2-Variable K-Map</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">A\B</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">1</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>0</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>1</sub></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>2</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>3</sub></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="caption">Structure of a 2-variable K-Map</p>
+                </div>
+                
+                <h3>3-Variable K-Map</h3>
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>3-Variable K-Map</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">A\BC</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>0</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>1</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>3</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>2</sub></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>4</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>5</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>7</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>6</sub></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="caption">Structure of a 3-variable K-Map</p>
+                </div>
+                
+                <h3>4-Variable K-Map</h3>
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>4-Variable K-Map</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">AB\CD</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>0</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>1</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>3</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>2</sub></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>4</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>5</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>7</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>6</sub></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>12</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>13</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>15</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>14</sub></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>8</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>9</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>11</sub></td>
+                                <td style="border: 1px solid #333; padding: 10px;">m<sub>10</sub></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="caption">Structure of a 4-variable K-Map</p>
+                </div>
+                
+                <h3>K-Map Simplification Process</h3>
+                <ol>
+                    <li>Create the K-map from the truth table or Boolean expression</li>
+                    <li>Group adjacent 1s in powers of 2 (1, 2, 4, 8, etc.)</li>
+                    <li>Groups should be as large as possible</li>
+                    <li>Groups can wrap around edges</li>
+                    <li>Write the simplified expression from the groups</li>
+                </ol>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: K-Map Simplification</div>
+                    <p>Simplify the Boolean function F(A,B,C) = Σ(0, 2, 3, 4, 6) using a K-map.</p>
+                    <p><strong>Solution:</strong></p>
+                    <p>First, create the K-map with 1s in positions 0, 2, 3, 4, 6:</p>
+                    <table style="margin: 0 auto; border-collapse: collapse;">
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">A\BC</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">0</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                            <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #aaaaff;">1</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">1</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                            <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                        </tr>
+                    </table>
+                    <p>We can form two groups:</p>
+                    <p>1. Group of four 1s (positions 0, 2, 4, 6): This gives us C'</p>
+                    <p>2. Group of two 1s (positions 2, 3): This gives us A'B</p>
+                    <p>Simplified expression: F = C' + A'B</p>
+                </div>
+                
+                <h3>Don't Care Conditions</h3>
+                <p>In some logic functions, certain input combinations may never occur or the output for these combinations doesn't matter. These are called "don't care" conditions and are represented by X in K-maps.</p>
+                <p>Don't care conditions can be treated as either 0 or 1 to help create larger groups and achieve better simplification.</p>
+                
+                <h3>SOP and POS Forms</h3>
+                <ul>
+                    <li><strong>Sum of Products (SOP):</strong> OR of AND terms (minterms)</li>
+                    <li><strong>Product of Sums (POS):</strong> AND of OR terms (maxterms)</li>
+                </ul>
+                <p>K-maps can be used to derive both SOP and POS forms from a truth table.</p>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Simplify the Boolean function F(A,B,C,D) = Σ(1, 3, 7, 11, 15) + d(0, 2, 5) using a K-map, where d represents don't care conditions.</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution4')">Show Solution</button>
+                    <div id="solution4" class="solution">
+                        <p>First, create the K-map with 1s in positions 1, 3, 7, 11, 15 and X in positions 0, 2, 5:</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">AB\CD</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">00</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #ffffaa;">X</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #ffffaa;">X</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">01</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #ffffaa;">X</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">11</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #e0e0e0;">10</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                                <td style="border: 1px solid #333; padding: 10px; background-color: #aaffaa;">1</td>
+                                <td style="border: 1px solid #333; padding: 10px;">0</td>
+                            </tr>
+                        </table>
+                        <p>We can form one group of eight 1s by treating the don't cares at positions 0, 2, and 5 as 1s:</p>
+                        <p>This group covers all cells where CD = 11 (the third column), giving us CD</p>
+                        <p>Simplified expression: F = CD</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Number Systems Section -->
+            <section id="number-systems" class="section">
+                <h2>Number Systems</h2>
+                
+                <p>Number systems define how numbers are represented using symbols. Digital systems primarily use binary, but we also work with decimal, octal, and hexadecimal systems.</p>
+                
+                <h3>Decimal (Base 10)</h3>
+                <ul>
+                    <li>Uses digits 0-9</li>
+                    <li>Each position represents a power of 10</li>
+                    <li>Example: 345 = 3×10² + 4×10¹ + 5×10⁰</li>
+                </ul>
+                
+                <h3>Binary (Base 2)</h3>
+                <ul>
+                    <li>Uses digits 0 and 1</li>
+                    <li>Each position represents a power of 2</li>
+                    <li>Example: 1011 = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 11 (decimal)</li>
+                </ul>
+                
+                <h3>Octal (Base 8)</h3>
+                <ul>
+                    <li>Uses digits 0-7</li>
+                    <li>Each position represents a power of 8</li>
+                    <li>Example: 347 = 3×8² + 4×8¹ + 7×8⁰ = 231 (decimal)</li>
+                </ul>
+                
+                <h3>Hexadecimal (Base 16)</h3>
+                <ul>
+                    <li>Uses digits 0-9 and A-F (A=10, B=11, C=12, D=13, E=14, F=15)</li>
+                    <li>Each position represents a power of 16</li>
+                    <li>Example: 2A7 = 2×16² + 10×16¹ + 7×16⁰ = 679 (decimal)</li>
+                </ul>
+                
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>Number System Comparison</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Decimal</th>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Binary</th>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Octal</th>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Hexadecimal</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">0</td>
+                                <td style="border: 1px solid #333; padding: 8px;">0</td>
+                                <td style="border: 1px solid #333; padding: 8px;">0</td>
+                                <td style="border: 1px solid #333; padding: 8px;">0</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">5</td>
+                                <td style="border: 1px solid #333; padding: 8px;">101</td>
+                                <td style="border: 1px solid #333; padding: 8px;">5</td>
+                                <td style="border: 1px solid #333; padding: 8px;">5</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">10</td>
+                                <td style="border: 1px solid #333; padding: 8px;">1010</td>
+                                <td style="border: 1px solid #333; padding: 8px;">12</td>
+                                <td style="border: 1px solid #333; padding: 8px;">A</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">15</td>
+                                <td style="border: 1px solid #333; padding: 8px;">1111</td>
+                                <td style="border: 1px solid #333; padding: 8px;">17</td>
+                                <td style="border: 1px solid #333; padding: 8px;">F</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">16</td>
+                                <td style="border: 1px solid #333; padding: 8px;">10000</td>
+                                <td style="border: 1px solid #333; padding: 8px;">20</td>
+                                <td style="border: 1px solid #333; padding: 8px;">10</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="caption">Comparison of number representations across different bases</p>
+                </div>
+                
+                <h3>Number System Conversions</h3>
+                
+                <h4>Decimal to Other Bases</h4>
+                <p><strong>Division Method:</strong> Repeatedly divide by the target base and note remainders.</p>
+                
+                <h4>Other Bases to Decimal</h4>
+                <p><strong>Positional Weight Method:</strong> Multiply each digit by its positional weight and sum.</p>
+                
+                <h4>Binary ↔ Octal/Hexadecimal</h4>
+                <ul>
+                    <li><strong>Binary to Octal:</strong> Group binary digits in sets of 3 (from right)</li>
+                    <li><strong>Binary to Hexadecimal:</strong> Group binary digits in sets of 4 (from right)</li>
+                    <li><strong>Octal to Binary:</strong> Convert each octal digit to 3 binary digits</li>
+                    <li><strong>Hexadecimal to Binary:</strong> Convert each hex digit to 4 binary digits</li>
+                </ul>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Number System Conversion</div>
+                    <p>Convert the decimal number 175 to binary, octal, and hexadecimal.</p>
+                    <p><strong>Solution:</strong></p>
+                    <p><strong>Binary:</strong> 175 ÷ 2 = 87 R1, 87 ÷ 2 = 43 R1, 43 ÷ 2 = 21 R1, 21 ÷ 2 = 10 R1, 10 ÷ 2 = 5 R0, 5 ÷ 2 = 2 R1, 2 ÷ 2 = 1 R0, 1 ÷ 2 = 0 R1</p>
+                    <p>Reading remainders from bottom to top: 10101111</p>
+                    <p><strong>Octal:</strong> Group binary in sets of 3: 010 101 111 = 2 5 7 = 257₈</p>
+                    <p><strong>Hexadecimal:</strong> Group binary in sets of 4: 1010 1111 = A F = AF₁₆</p>
+                </div>
+                
+                <h3>Binary Arithmetic</h3>
+                
+                <h4>Binary Addition</h4>
+                <p>Rules: 0+0=0, 0+1=1, 1+0=1, 1+1=0 with carry 1</p>
+                
+                <h4>Binary Subtraction</h4>
+                <p>Can be performed using:</p>
+                <ul>
+                    <li>Direct method (with borrowing)</li>
+                    <li>1's complement method</li>
+                    <li>2's complement method (most common in digital systems)</li>
+                </ul>
+                
+                <h4>Hexadecimal Arithmetic</h4>
+                <p>Similar to decimal arithmetic but with base 16. Remember to carry/borry when sums/differences exceed 15.</p>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Perform the following binary addition: 1101 + 1011</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution5')">Show Solution</button>
+                    <div id="solution5" class="solution">
+                        <p>Let's add the binary numbers step by step:</p>
+                        <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
+  1101
++ 1011
+------
+ 11000
+                        </pre>
+                        <p>Step-by-step:</p>
+                        <p>1 + 1 = 0, carry 1</p>
+                        <p>0 + 1 + carry 1 = 0, carry 1</p>
+                        <p>1 + 0 + carry 1 = 0, carry 1</p>
+                        <p>1 + 1 + carry 1 = 1, carry 1</p>
+                        <p>Final result: 11000₂ (which is 24 in decimal)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Binary Codes Section -->
+            <section id="binary-codes" class="section">
+                <h2>Binary Codes</h2>
+                
+                <p>Binary codes are methods of representing discrete information using binary symbols (0s and 1s).</p>
+                
+                <h3>Decimal Codes</h3>
+                
+                <h4>BCD (Binary Coded Decimal)</h4>
+                <ul>
+                    <li>Each decimal digit is represented by its 4-bit binary equivalent</li>
+                    <li>Example: 347 in BCD is 0011 0100 0111</li>
+                    <li>Advantage: Easy conversion to/from decimal</li>
+                    <li>Disadvantage: Inefficient use of bits (wastes 6 of 16 possible 4-bit combinations)</li>
+                </ul>
+                
+                <h4>Excess-3 Code</h4>
+                <ul>
+                    <li>BCD + 3 (add 3 to each digit before converting to binary)</li>
+                    <li>Example: 4 in Excess-3 is 4+3=7 → 0111</li>
+                    <li>Self-complementing code: 9's complement can be obtained by complementing each bit</li>
+                </ul>
+                
+                <h3>Alphanumeric Codes</h3>
+                
+                <h4>ASCII (American Standard Code for Information Interchange)</h4>
+                <ul>
+                    <li>7-bit code (128 characters)</li>
+                    <li>Includes letters (A-Z, a-z), digits (0-9), punctuation, and control characters</li>
+                    <li>Extended ASCII uses 8 bits (256 characters)</li>
+                </ul>
+                
+                <h4>EBCDIC (Extended Binary Coded Decimal Interchange Code)</h4>
+                <ul>
+                    <li>8-bit code developed by IBM</li>
+                    <li>Primarily used in IBM mainframe systems</li>
+                </ul>
+                
+                <h3>Gray Code</h3>
+                <ul>
+                    <li>Also called reflected binary code</li>
+                    <li>Adjacent codes differ by only one bit</li>
+                    <li>Used in rotary encoders, Karnaugh maps, and error correction</li>
+                    <li>Reduces errors in digital systems where physical parameters change continuously</li>
+                </ul>
+                
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>Binary vs Gray Code</p>
+                        <table style="margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Decimal</th>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Binary</th>
+                                <th style="border: 1px solid #333; padding: 8px; background-color: #e0e0e0;">Gray Code</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">0</td>
+                                <td style="border: 1px solid #333; padding: 8px;">000</td>
+                                <td style="border: 1px solid #333; padding: 8px;">000</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">1</td>
+                                <td style="border: 1px solid #333; padding: 8px;">001</td>
+                                <td style="border: 1px solid #333; padding: 8px;">001</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">2</td>
+                                <td style="border: 1px solid #333; padding: 8px;">010</td>
+                                <td style="border: 1px solid #333; padding: 8px;">011</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">3</td>
+                                <td style="border: 1px solid #333; padding: 8px;">011</td>
+                                <td style="border: 1px solid #333; padding: 8px;">010</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">4</td>
+                                <td style="border: 1px solid #333; padding: 8px;">100</td>
+                                <td style="border: 1px solid #333; padding: 8px;">110</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #333; padding: 8px;">5</td>
+                                <td style="border: 1px solid #333; padding: 8px;">101</td>
+                                <td style="border: 1px solid #333; padding: 8px;">111</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="caption">Comparison of Binary and Gray Code representations</p>
+                </div>
+                
+                <h3>Error Detection and Correction Codes</h3>
+                
+                <h4>Parity Check</h4>
+                <ul>
+                    <li><strong>Even Parity:</strong> Total number of 1s (including parity bit) is even</li>
+                    <li><strong>Odd Parity:</strong> Total number of 1s (including parity bit) is odd</li>
+                    <li>Can detect single-bit errors but cannot correct them</li>
+                </ul>
+                
+                <h4>Hamming Code</h4>
+                <ul>
+                    <li>Can detect and correct single-bit errors</li>
+                    <li>Uses multiple parity bits at positions that are powers of 2</li>
+                    <li>Widely used in computer memory systems</li>
+                </ul>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Parity Check</div>
+                    <p>Add an even parity bit to the data 1011001.</p>
+                    <p><strong>Solution:</strong></p>
+                    <p>The data 1011001 has four 1s, which is an even number.</p>
+                    <p>For even parity, the total number of 1s (including the parity bit) must be even.</p>
+                    <p>Since we already have an even number of 1s, the parity bit should be 0.</p>
+                    <p>Result: 01011001 (with the leftmost bit as the parity bit)</p>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Convert the binary number 1011 to Gray code.</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution6')">Show Solution</button>
+                    <div id="solution6" class="solution">
+                        <p>To convert binary to Gray code:</p>
+                        <p>1. The most significant bit (MSB) of Gray code is the same as the MSB of binary</p>
+                        <p>2. For each subsequent bit, XOR it with the previous binary bit</p>
+                        <p>Binary: 1 0 1 1</p>
+                        <p>Gray code:</p>
+                        <p>Bit 1 (MSB): Same as binary = 1</p>
+                        <p>Bit 2: 1 XOR 0 = 1</p>
+                        <p>Bit 3: 0 XOR 1 = 1</p>
+                        <p>Bit 4: 1 XOR 1 = 0</p>
+                        <p>Result: 1110</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Computer Architecture Section -->
+            <section id="computer-architecture" class="section">
+                <h2>Computer Architecture</h2>
+                
+                <h3>What is a Digital Computer?</h3>
+                <p>A digital computer is a machine that processes information represented in discrete, numerical form—specifically as binary digits (0s and 1s).</p>
+                
+                <div class="highlight">
+                    <p><strong>Key Characteristics:</strong></p>
+                    <ul>
+                        <li><strong>Discrete Data:</strong> Uses binary digits (0s and 1s)</li>
+                        <li><strong>Stored Program:</strong> Instructions are stored in memory</li>
+                        <li><strong>Electronic:</strong> Uses electronic components (transistors) for speed</li>
+                        <li><strong>Programmable:</strong> Function can be changed by loading different software</li>
+                    </ul>
+                </div>
+                
+                <h3>Von Neumann Architecture</h3>
+                <p>The foundational design for most modern computers, consisting of:</p>
+                
+                <div class="diagram">
+                    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+                        <p>Von Neumann Architecture</p>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
+                                <div style="text-align: center;">
+                                    <div style="width: 80px; height: 60px; background-color: #3498db; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px;">Input</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Input Devices</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="width: 80px; height: 60px; background-color: #e74c3c; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px;">Output</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Output Devices</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-around; width: 100%;">
+                                <div style="text-align: center;">
+                                    <div style="width: 100px; height: 80px; background-color: #2c3e50; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px;">CPU</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Central Processing Unit</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="width: 100px; height: 80px; background-color: #2c3e50; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px;">Memory</div>
+                                    <p style="font-size: 0.8rem; margin-top: 5px;">Memory Unit</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; font-size: 0.9rem;">
+                            <p>All components connected via system bus (data, address, control)</p>
+                        </div>
+                    </div>
+                    <p class="caption">Basic structure of Von Neumann Architecture</p>
+                </div>
+                
+                <h4>Core Components</h4>
+                <ul>
+                    <li><strong>Central Processing Unit (CPU):</strong>
+                        <ul>
+                            <li><strong>Arithmetic Logic Unit (ALU):</strong> Performs calculations and logical operations</li>
+                            <li><strong>Control Unit (CU):</strong> Directs processor operation</li>
+                            <li><strong>Registers:</strong> Small, fast memory locations inside CPU</li>
+                        </ul>
+                    </li>
+                    <li><strong>Memory (RAM):</strong> Stores data and program instructions (volatile)</li>
+                    <li><strong>Input/Output (I/O) Devices:</strong> Allow interaction with outside world</li>
+                    <li><strong>Storage (Secondary Memory):</strong> Long-term, non-volatile storage</li>
+                    <li><strong>Buses:</strong> Wires that transmit data between components</li>
+                </ul>
+                
+                <h3>Fetch-Decode-Execute Cycle</h3>
+                <p>The continuous process the CPU uses to execute instructions:</p>
+                <ol>
+                    <li><strong>Fetch:</strong> CU gets next instruction from RAM</li>
+                    <li><strong>Decode:</strong> CU interprets the instruction</li>
+                    <li><strong>Execute:</strong> CU commands relevant parts to carry out the instruction</li>
+                </ol>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Instruction Execution</div>
+                    <p>Describe what happens during the fetch-decode-execute cycle for the instruction "ADD R1, R2, R3" (add contents of R2 and R3, store result in R1).</p>
+                    <p><strong>Solution:</strong></p>
+                    <p><strong>Fetch:</strong> The CPU retrieves the instruction from memory using the program counter.</p>
+                    <p><strong>Decode:</strong> The control unit interprets that this is an ADD instruction involving registers R1, R2, and R3.</p>
+                    <p><strong>Execute:</strong> The ALU adds the values in R2 and R3, and the result is stored in R1.</p>
+                </div>
+                
+                <h3>Computer Generations</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Generation</th>
+                            <th>Time Period</th>
+                            <th>Technology</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>First</td>
+                            <td>1940s-1950s</td>
+                            <td>Vacuum Tubes</td>
+                            <td>ENIAC, UNIVAC</td>
+                        </tr>
+                        <tr>
+                            <td>Second</td>
+                            <td>1950s-1960s</td>
+                            <td>Transistors</td>
+                            <td>IBM 1401, IBM 7090</td>
+                        </tr>
+                        <tr>
+                            <td>Third</td>
+                            <td>1960s-1970s</td>
+                            <td>Integrated Circuits (ICs)</td>
+                            <td>IBM System/360, PDP-8</td>
+                        </tr>
+                        <tr>
+                            <td>Fourth</td>
+                            <td>1970s-Present</td>
+                            <td>Microprocessors</td>
+                            <td>Personal Computers</td>
+                        </tr>
+                        <tr>
+                            <td>Fifth</td>
+                            <td>Present & Beyond</td>
+                            <td>AI & Parallel Processing</td>
+                            <td>Supercomputers, AI Systems</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Types of Digital Computers</h3>
+                <ul>
+                    <li><strong>Supercomputers:</strong> Most powerful, for complex calculations</li>
+                    <li><strong>Mainframes:</strong> High-performance for large organizations</li>
+                    <li><strong>Servers:</strong> Provide services to other computers</li>
+                    <li><strong>Personal Computers (PCs):</strong> For general use by individuals</li>
+                    <li><strong>Workstations:</strong> High-end PCs for technical applications</li>
+                    <li><strong>Mobile Devices:</strong> Smartphones and tablets</li>
+                </ul>
+                
+                <div class="practice-box">
+                    <div class="practice-title">Practice Question</div>
+                    <p>Explain the difference between Harvard architecture and Von Neumann architecture.</p>
+                    <button class="toggle-btn" onclick="toggleSolution('solution7')">Show Solution</button>
+                    <div id="solution7" class="solution">
+                        <p><strong>Von Neumann Architecture:</strong></p>
+                        <ul>
+                            <li>Uses a single memory for both instructions and data</li>
+                            <li>Simpler design but creates a bottleneck (von Neumann bottleneck)</li>
+                            <li>Most general-purpose computers use this architecture</li>
+                        </ul>
+                        <p><strong>Harvard Architecture:</strong></p>
+                        <ul>
+                            <li>Uses separate memories for instructions and data</li>
+                            <li>Allows simultaneous access to instructions and data</li>
+                            <li>Higher performance but more complex design</li>
+                            <li>Commonly used in digital signal processors and microcontrollers</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer>
+        <p>Digital Principles & Computer Architecture Notes | Compiled from various sources</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generatePDF() {
+            const element = document.getElementById('content-to-print');
+            const opt = {
+                margin: 2,
+                filename: 'Digital_Principles_Notes.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+        
+        function toggleSolution(id) {
+            const solution = document.getElementById(id);
+            if (solution.style.display === 'block') {
+                solution.style.display = 'none';
+            } else {
+                solution.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
